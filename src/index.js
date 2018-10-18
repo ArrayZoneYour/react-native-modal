@@ -9,6 +9,11 @@ import {
   PanResponder,
   Animated
 } from "react-native";
+const IOS = Platform.OS === "ios";
+const WIDTH = Dimensions.get("window").width;
+const HEIGHT = IOS
+  ? Dimensions.get("window").height
+  : require("react-native-extra-dimensions-android").get("REAL_WINDOW_HEIGHT");
 import PropTypes from "prop-types";
 import {
   View,
@@ -102,7 +107,7 @@ class ReactNativeModal extends Component {
     showContent: true,
     isVisible: false,
     deviceWidth: Dimensions.get("window").width,
-    deviceHeight: Dimensions.get("window").height,
+    deviceHeight: HEIGHT,
     isSwipeable: this.props.swipeDirection ? true : false,
     pan: null
   };
@@ -310,7 +315,7 @@ class ReactNativeModal extends Component {
   handleDimensionsUpdate = dimensionsUpdate => {
     // Here we update the device dimensions in the state if the layout changed (triggering a render)
     const deviceWidth = Dimensions.get("window").width;
-    const deviceHeight = Dimensions.get("window").height;
+    const deviceHeight = HEIGHT;
     if (
       deviceWidth !== this.state.deviceWidth ||
       deviceHeight !== this.state.deviceHeight
